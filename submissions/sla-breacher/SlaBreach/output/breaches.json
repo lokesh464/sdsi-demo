@@ -1,0 +1,9 @@
+{
+  "Results": [],
+  "BreachCountByPriority": {},
+  "TicketsProcessed": 0,
+  "TicketsSkipped": 1,
+  "SkipReasons": [
+    "Failed to parse tickets.json: The JSON value could not be converted to System.Nullable\u00601[System.DateTime]. Path: $[11].createdAt | LineNumber: 107 | BytePositionInLine: 29."
+  ]
+}
