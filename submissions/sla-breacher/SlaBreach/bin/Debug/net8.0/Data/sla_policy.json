@@ -1,0 +1,26 @@
+[
+  {
+    "priority": "P1",
+    "slaTarget": "response",
+    "maxBusinessHours": 1,
+    "maxResolutionBusinessHours": 4
+  },
+  {
+    "priority": "P2",
+    "slaTarget": "resolution",
+    "maxBusinessHours": 8,
+    "maxResolutionBusinessHours": 8
+  },
+  {
+    "priority": "P3",
+    "slaTarget": "response",
+    "maxBusinessHours": 24,
+    "maxResolutionBusinessHours": 48
+  },
+  {
+    "priority": "P4",
+    "slaTarget": "none",
+    "maxBusinessHours": 0,
+    "maxResolutionBusinessHours": 0
+  }
+]

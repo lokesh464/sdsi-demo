@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SlaBreach.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Data\sla_policy.json" CopyToOutputDirectory="PreserveNewest" Link="Data\sla_policy.json" />
+    <None Include="..\Data\business_hours.json" CopyToOutputDirectory="PreserveNewest" Link="Data\business_hours.json" />
+    <None Include="..\Data\holiday.json" CopyToOutputDirectory="PreserveNewest" Link="Data\holiday.json" />
+    <None Include="..\Data\tickets.json" CopyToOutputDirectory="PreserveNewest" Link="Data\tickets.json" />
+  </ItemGroup>
+
+</Project>

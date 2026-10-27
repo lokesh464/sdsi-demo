@@ -1,0 +1,6 @@
+{
+  "timeZone": "Eastern Standard Time",
+  "businessHoursStart": "08:00",
+  "businessHoursEnd": "17:00",
+  "businessDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ]
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "TKT-001",
+    "title": "Production DB down",
+    "priority": "P1",
+    "status": "resolved",
+    "createdAt": "2025-10-01T09:00:00",
+    "resolvedAt": "2025-10-01T16:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-002",
+    "title": "Login timeout",
+    "priority": "P2",
+    "status": "resolved",
+    "createdAt": "2025-10-01T09:00:00",
+    "resolvedAt": "2025-10-01T18:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-003",
+    "title": "Weekly report query",
+    "priority": "P3",
+    "status": "resolved",
+    "createdAt": "2025-10-01T10:00:00",
+    "resolvedAt": "2025-10-01T16:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-004",
+    "title": "Weekend-span ticket",
+    "priority": "P3",
+    "status": "resolved",
+    "createdAt": "2025-10-24T16:00:00",
+    "resolvedAt": "2025-10-27T09:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-005",
+    "title": "Holiday-span ticket",
+    "priority": "P1",
+    "status": "resolved",
+    "createdAt": "2025-07-03T16:00:00",
+    "resolvedAt": "2025-07-07T09:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-006",
+    "title": "Still open - unresolved",
+    "priority": "P1",
+    "status": "open",
+    "createdAt": "2025-10-26T10:00:00",
+    "resolvedAt": null,
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-007",
+    "title": "On-hold paused support",
+    "priority": "P2",
+    "status": "resolved",
+    "createdAt": "2025-10-01T08:00:00",
+    "resolvedAt": "2025-10-03T18:00:00",
+    "onHoldPeriods": [
+      { "start": "2025-10-01T12:00:00", "end": "2025-10-02T10:00:00" }
+    ]
+  },
+  {
+    "id": "TKT-008",
+    "title": "P4 no SLA",
+    "priority": "P4",
+    "status": "resolved",
+    "createdAt": "2025-09-01T09:00:00",
+    "resolvedAt": "2025-10-01T09:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-009",
+    "title": "Future created ticket",
+    "priority": "P3",
+    "status": "open",
+    "createdAt": "2026-01-01T10:00:00",
+    "resolvedAt": null,
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-BAD-1",
+    "title": "Missing priority",
+    "priority": "",
+    "status": "resolved",
+    "createdAt": "2025-10-01T09:00:00",
+    "resolvedAt": "2025-10-01T10:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-BAD-2",
+    "title": "Invalid priority",
+    "priority": "P99",
+    "status": "resolved",
+    "createdAt": "2025-10-01T09:00:00",
+    "resolvedAt": "2025-10-01T10:00:00",
+    "onHoldPeriods": []
+  },
+  {
+    "id": "TKT-BAD-3",
+    "title": "Bad date format",
+    "priority": "P2",
+    "status": "resolved",
+    "createdAt": "not-a-date",
+    "resolvedAt": "also-bad",
+    "onHoldPeriods": []
+  }
+]
