@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SlaBreach")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+953f00a68142f78066a1714d940ba05ed92ea335")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+709582751f5fe668948fbfe9da18ced0202110d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("SlaBreach")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SlaBreach")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

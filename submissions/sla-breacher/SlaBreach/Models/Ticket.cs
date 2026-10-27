@@ -17,20 +17,35 @@ public class Ticket
     public string Status { get; set; } = "";
 
     [JsonPropertyName("createdAt")]
-    public DateTime? CreatedAt { get; set; }
+    public string? CreatedAtRaw { get; set; }
 
     [JsonPropertyName("resolvedAt")]
-    public DateTime? ResolvedAt { get; set; }
+    public string? ResolvedAtRaw { get; set; }
 
     [JsonPropertyName("onHoldPeriods")]
+    public List<OnHoldPeriodRaw> OnHoldPeriodsRaw { get; set; } = new();
+
+    [JsonIgnore]
+    public DateTime? CreatedAt { get; set; }
+
+    [JsonIgnore]
+    public DateTime? ResolvedAt { get; set; }
+
+    [JsonIgnore]
     public List<OnHoldPeriod> OnHoldPeriods { get; set; } = new();
+}
+
+public class OnHoldPeriodRaw
+{
+    [JsonPropertyName("start")]
+    public string? StartRaw { get; set; }
+
+    [JsonPropertyName("end")]
+    public string? EndRaw { get; set; }
 }
 
 public class OnHoldPeriod
 {
-    [JsonPropertyName("start")]
     public DateTime Start { get; set; }
-
-    [JsonPropertyName("end")]
     public DateTime End { get; set; }
 }
