@@ -1,9 +1,77 @@
 {
-  "Results": [],
-  "BreachCountByPriority": {},
-  "TicketsProcessed": 0,
-  "TicketsSkipped": 1,
+  "Results": [
+    {
+      "ticketId": "TKT-001",
+      "priority": "P1",
+      "slaTarget": "response (1h)",
+      "elapsedBusinessHours": 7,
+      "slaThresholdHours": 1,
+      "breachAmount": 6,
+      "breached": true
+    },
+    {
+      "ticketId": "TKT-002",
+      "priority": "P2",
+      "slaTarget": "resolution (8h)",
+      "elapsedBusinessHours": 8,
+      "slaThresholdHours": 8,
+      "breachAmount": 0,
+      "breached": false
+    },
+    {
+      "ticketId": "TKT-003",
+      "priority": "P3",
+      "slaTarget": "response (24h)",
+      "elapsedBusinessHours": 6,
+      "slaThresholdHours": 24,
+      "breachAmount": 0,
+      "breached": false
+    },
+    {
+      "ticketId": "TKT-004",
+      "priority": "P3",
+      "slaTarget": "response (24h)",
+      "elapsedBusinessHours": 2,
+      "slaThresholdHours": 24,
+      "breachAmount": 0,
+      "breached": false
+    },
+    {
+      "ticketId": "TKT-005",
+      "priority": "P1",
+      "slaTarget": "response (1h)",
+      "elapsedBusinessHours": 2,
+      "slaThresholdHours": 1,
+      "breachAmount": 1,
+      "breached": true
+    },
+    {
+      "ticketId": "TKT-006",
+      "priority": "P1",
+      "slaTarget": "response (1h)",
+      "elapsedBusinessHours": 4,
+      "slaThresholdHours": 1,
+      "breachAmount": 3,
+      "breached": true
+    },
+    {
+      "ticketId": "TKT-007",
+      "priority": "P2",
+      "slaTarget": "resolution (8h)",
+      "elapsedBusinessHours": 20,
+      "slaThresholdHours": 8,
+      "breachAmount": 12,
+      "breached": true
+    }
+  ],
+  "BreachCountByPriority": {
+    "P1": 3,
+    "P2": 1
+  },
+  "TicketsProcessed": 10,
+  "TicketsSkipped": 2,
   "SkipReasons": [
-    "Failed to parse tickets.json: The JSON value could not be converted to System.Nullable\u00601[System.DateTime]. Path: $[11].createdAt | LineNumber: 107 | BytePositionInLine: 29."
+    "Ticket \u0027TKT-BAD-1\u0027: missing priority",
+    "Ticket \u0027TKT-BAD-3\u0027: invalid or missing createdAt"
   ]
 }

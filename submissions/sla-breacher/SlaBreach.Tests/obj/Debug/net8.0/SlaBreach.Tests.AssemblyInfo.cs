@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SlaBreach.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+709582751f5fe668948fbfe9da18ced0202110d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56f06542b8ad11f0c5d02458aec492e71a544d8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SlaBreach.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SlaBreach.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

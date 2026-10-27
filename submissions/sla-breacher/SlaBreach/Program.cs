@@ -13,39 +13,46 @@ for (int i = 0; i < args.Length; i++)
         if (!DateTime.TryParse(args[i + 1], out now))
         {
             Console.Error.WriteLine(
-                $"Invalid --now value: {args[i + 1]}. Using current UTC.");
+                $"Invalid --now: {args[i + 1]}. Using UTC now.");
             now = DateTime.UtcNow;
         }
         else
-        {
-            now = DateTime.SpecifyKind(now, DateTimeKind.Utc);
-        }
+            now = DateTime.SpecifyKind(now, DateTimeKind.Unspecified);
         break;
     }
 }
 
-string dataDir = GetDataDirectory();
+// Resolve data directory: try Data/ alongside exe, then ../Data relative
+// to project root (for dotnet run), then current dir.
+string dataDir = Path.Combine(AppContext.BaseDirectory, "Data");
+if (!Directory.Exists(dataDir))
+{
+    dataDir = Path.Combine(
+        Directory.GetCurrentDirectory(), "..", "..", "..", "Data");
+    if (!Directory.Exists(dataDir))
+        dataDir = "Data";
+}
 
 var policies = DataLoader.LoadPolicies(
     Path.Combine(dataDir, "sla_policy.json"), skipReasons);
 var holidays = DataLoader.LoadHolidays(
     Path.Combine(dataDir, "holiday.json"), skipReasons);
-var businessConfig = DataLoader.LoadBusinessHours(
+var bizCfg = DataLoader.LoadBusinessHours(
     Path.Combine(dataDir, "business_hours.json"), skipReasons);
 var tickets = DataLoader.LoadTickets(
     Path.Combine(dataDir, "tickets.json"), skipReasons);
 
-var calculator = new SlaCalculator(policies, holidays, businessConfig);
+var calc = new SlaCalculator(policies, holidays, bizCfg);
 
 var results = new List<BreachResult>();
 foreach (var ticket in tickets)
 {
-    var result = calculator.Compute(ticket, now);
-    if (result != null)
-        results.Add(result);
+    var r = calc.Compute(ticket, now);
+    if (r != null)
+        results.Add(r);
 }
 
-var breachCountByPriority = results
+var breachByPrio = results
     .Where(r => r.Breached)
     .GroupBy(r => r.Priority)
     .ToDictionary(g => g.Key, g => g.Count());
@@ -53,75 +60,54 @@ var breachCountByPriority = results
 var summary = new BreachSummary
 {
     Results = results,
-    BreachCountByPriority = breachCountByPriority,
+    BreachCountByPriority = breachByPrio,
     TicketsProcessed = tickets.Count,
     TicketsSkipped = skipReasons.Count,
     SkipReasons = skipReasons
 };
 
+// Console table
 Console.WriteLine();
 Console.WriteLine("=== SLA Breach Report ===");
 Console.WriteLine($"Analysis at: {now:yyyy-MM-dd HH:mm:ss} UTC");
-Console.WriteLine($"Tickets processed: {summary.TicketsProcessed}");
-Console.WriteLine($"Tickets skipped: {summary.TicketsSkipped}");
+Console.WriteLine($"Processed: {summary.TicketsProcessed}  Skipped: {summary.TicketsSkipped}");
 Console.WriteLine();
-
 Console.WriteLine(
-    $"{"ID",-12} {"Prio",-6} {"SLA Target",-18} " +
-    $"{"Elapsed",-10} {"Limit",-8} {"Breach",-10} {"Breached"}");
-Console.WriteLine(new string('-', 75));
+    $"{"ID",-12} {"Prio",-6} {"SLA Target",-18} {"Elapsed",-9} {"Limit",-7} {"Breach",-9} {"Breached"}");
+Console.WriteLine(new string('-', 72));
 
 foreach (var r in results)
 {
     Console.WriteLine(
         $"{r.TicketId,-12} {r.Priority,-6} {r.SlaTarget,-18} " +
-        $"{r.ElapsedBusinessHours,-10:F2} {r.SlaThresholdHours,-8:F2} " +
-        $"{r.BreachAmount,-10:F2} {(r.Breached ? "YES" : "no")}");
+        $"{r.ElapsedBusinessHours,-9:F2} {r.SlaThresholdHours,-7:F2} " +
+        $"{r.BreachAmount,-9:F2} {(r.Breached ? "YES" : "no")}");
 }
 
 Console.WriteLine();
 Console.WriteLine("=== Breach Count by Priority ===");
-if (breachCountByPriority.Count == 0)
-{
-    Console.WriteLine("  No breaches found.");
-}
+if (!breachByPrio.Any())
+    Console.WriteLine("  No breaches.");
 else
-{
-    foreach (var (prio, count) in breachCountByPriority.OrderBy(kv => kv.Key))
-        Console.WriteLine($"  {prio}: {count} breached");
-}
+    foreach (var (p, c) in breachByPrio.OrderBy(x => x.Key))
+        Console.WriteLine($"  {p}: {c}");
 
-var allByPriority = results
+var allByPrio = results
     .GroupBy(r => r.Priority)
     .ToDictionary(g => g.Key, g => g.Count());
-
 Console.WriteLine();
 Console.WriteLine("=== Evaluated by Priority ===");
-foreach (var (prio, count) in allByPriority.OrderBy(kv => kv.Key))
+foreach (var (p, c) in allByPrio.OrderBy(x => x.Key))
 {
-    var breached = breachCountByPriority.GetValueOrDefault(prio, 0);
-    Console.WriteLine($"  {prio}: {count} evaluated, {breached} breached");
+    var b = breachByPrio.GetValueOrDefault(p, 0);
+    Console.WriteLine($"  {p}: {c} evaluated, {b} breached");
 }
 
-string outputDir = "output";
-if (!Directory.Exists(outputDir))
-    Directory.CreateDirectory(outputDir);
-
-var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
-var outputJson = JsonSerializer.Serialize(summary, jsonOptions);
-File.WriteAllText(Path.Combine(outputDir, "breaches.json"), outputJson);
-
-Console.WriteLine();
-Console.WriteLine(
-    $"Report written to {Path.Combine(outputDir, "breaches.json")}");
-
-static string GetDataDirectory()
-{
-    if (File.Exists("Data/sla_policy.json") || File.Exists("sla_policy.json"))
-        return Directory.Exists("Data") ? "Data" : ".";
-
-    var baseDir = AppContext.BaseDirectory;
-    if (Directory.Exists(Path.Combine(baseDir, "Data")))
-        return Path.Combine(baseDir, "Data");
-    return baseDir;
-}
+// Write output
+var outDir = Path.Combine(
+    Directory.GetCurrentDirectory(), "output");
+Directory.CreateDirectory(outDir);
+var json = JsonSerializer.Serialize(summary,
+    new JsonSerializerOptions { WriteIndented = true });
+File.WriteAllText(Path.Combine(outDir, "breaches.json"), json);
+Console.WriteLine($"\nReport -> {Path.Combine(outDir, "breaches.json")}");
